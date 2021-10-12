@@ -18,7 +18,10 @@ spec:
       containers:
         - name: cwms-react-demo
           # Docker Image
-          image: starlordolvr/cwms-react-image:1.0.1
+          image: starlordolvr/cwms-react-image:1.0.2
+          env:
+            - name: HTTPS
+              value: "true"
           ports:
             #the port on which the app can be reached out inside the container
             - containerPort: 80
