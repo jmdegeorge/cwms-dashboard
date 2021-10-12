@@ -26,6 +26,8 @@ spec:
             limits:
               memory: '128Mi'
               cpu: '200m'
+      nodeSelector:
+        kubernetes.io/os: linux
 
 ---
 
@@ -58,6 +60,8 @@ spec:
             limits:
               memory: '128Mi'
               cpu: '200m'
+      nodeSelector:
+        kubernetes.io/os: windows
 
 ---
 
