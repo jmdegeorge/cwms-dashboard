@@ -23,7 +23,7 @@ spec:
           - containerPort: 7002                  
         imagePullPolicy: IfNotPresent
         command:
-        - powershell.exe -File C:\compute\bin\install_RAS.ps1 java -jar C:\cwms-dataprovider\cwms-dataprovider-1.0-SNAPSHOT-shaded.jar       
+        - powershell.exe
       nodeSelector:
         kubernetes.io/os: windows
 ---
