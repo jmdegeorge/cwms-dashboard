@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hms-compute-demo
+spec:
+  selector:
+    matchLabels:
+      app: hms-compute-demo
+      tier: backend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hms-compute-demo
+        tier: backend
+        track: stable
+    spec:
+      containers:
+      - name: hms-compute-demo
+        image: starlordolvr/hms-compute-image:1.0.3
+        ports:
+          - containerPort: 7002                  
+        imagePullPolicy: IfNotPresent
+        command:
+        - powershell.exe
+        - -command
+        - "-File C:\compute\bin\install_RAS.ps1 java -jar C:\cwms-dataprovider\cwms-dataprovider-1.0-SNAPSHOT-shaded.jar"
+      nodeSelector:
+        kubernetes.io/os: windows
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hms-compute-service
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: hms-compute-demo
+    tier: backend
+    track: stable
+  sessionAffinity: None
+  type: LoadBalancer
