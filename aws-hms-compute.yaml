@@ -25,7 +25,7 @@ spec:
         command:
         - powershell.exe
         - -command
-        - "-File C:\compute\bin\install_RAS.ps1 java -jar C:\cwms-dataprovider\cwms-dataprovider-1.0-SNAPSHOT-shaded.jar"
+        - "-File C:/compute/bin/install_RAS.ps1 java -jar C:/cwms-dataprovider/cwms-dataprovider-1.0-SNAPSHOT-shaded.jar"
       nodeSelector:
         kubernetes.io/os: windows
 ---
