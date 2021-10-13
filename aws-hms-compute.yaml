@@ -23,7 +23,7 @@ spec:
           - containerPort: 7002                  
         imagePullPolicy: IfNotPresent
         command:
-        - powershell.exe
+        - powershell
       nodeSelector:
         kubernetes.io/os: windows
 ---
