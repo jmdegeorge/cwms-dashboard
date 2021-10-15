@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  #the Deployment Name
+  name: cwms-dataprovider-demo
+spec:
+  #the Number of Pods
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cwms-dataprovider-demo
+      tier: backend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: cwms-dataprovider-demo
+        tier: backend
+        track: stable        
+    spec:
+      containers:
+        - name: cwms-dataprovider-demo
+          image: starlordolvr/aws-hms-compute-demo:1.0.2
+          ports:
+            - containerPort: 7002
+          imagePullPolicy: IfNotPresent
+          command:
+          - powershell.exe
+          - -command
+          - "C:/compute/bin/install_RAS.ps1 java -jar C:/cwms-dataprovider/cwms-dataprovider-1.0-SNAPSHOT-shaded.jar"
+      nodeSelector:
+        kubernetes.io/os: windows
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cwms-dataprovider-svc  
+  labels:
+    run: cwms-dataprovider-svc
+spec:
+  type: NodePort
+  ports:
+    - port: 7002
+      targetPort: 7002
+      protocol: TCP
+      nodePort: 31002
+  selector:
+    app: cwms-dataprovider-demo
