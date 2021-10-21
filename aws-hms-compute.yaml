@@ -18,14 +18,14 @@ spec:
     spec:
       containers:
       - name: hms-compute-demo
-        image: starlordolvr/aws-hms-compute-demo:latest
+        image: starlordolvr/aws-hms-compute-demo:1.0.1
         ports:
-          - containerPort: 7002                  
+          - containerPort: 80
         imagePullPolicy: IfNotPresent
         command:
         - powershell.exe
         - -command
-        - "-File C:/compute/bin/install_RAS.ps1 java -jar C:/cwms-dataprovider/cwms-dataprovider-1.0-SNAPSHOT-shaded.jar"
+        - "C:/compute/bin/install_RAS.ps1 java -jar C:/cwms-dataprovider/cwms-dataprovider-1.0-SNAPSHOT-shaded.jar"
       nodeSelector:
         kubernetes.io/os: windows
 ---
@@ -38,10 +38,11 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 7002
+    targetPort: 80
   selector:
     app: hms-compute-demo
     tier: backend
     track: stable
   sessionAffinity: None
   type: LoadBalancer
+
