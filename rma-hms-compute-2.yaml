@@ -40,7 +40,7 @@ spec:
   - port: 80
     protocol: TCP
     targetPort: 80
-    nodePort: 80
+    nodePort: 31002
   selector:
     app: hms-compute-demo
     tier: backend
