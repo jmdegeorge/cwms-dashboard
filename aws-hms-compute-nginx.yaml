@@ -31,6 +31,8 @@ kind: Service
 metadata:
   name: hms-compute-service
   namespace: cwm
+  labels:
+    app: hms-compute-demo
 spec:
   type: ClusterIP
   selector:
