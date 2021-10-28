@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  namespace: cwms
+spec:
+  rules:
+  - host: www.cwmsdashboard.com
+    http:
+      paths:
+      - backend:
+          serviceName: hms-compute-service
+          servicePort: 80
