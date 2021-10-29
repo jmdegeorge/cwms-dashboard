@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cwms-react-demo
+  namespace: cmws
+spec:
+  selector:
+    matchLabels:
+      app: cwms-react-demo
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: cwms-react-demo
+    spec:
+      containers:
+      - name: cwms-react-demo
+        image: "starlordolvr/cwms-react-aws:latest"
+        ports:
+            #the port on which the app can be reached out inside the container
+            - containerPort: 7000
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '200m'
+      nodeSelector:
+        kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cwms-react-service
+  namespace: cwms
+  labels:
+    app: cwms-react-demo
+spec:
+  type: ClusterIP
+  selector:
+    app: cwms-react-demo    
+  ports:
+  - port: 80
+    targetPort: 7000
+    protocol: TCP
