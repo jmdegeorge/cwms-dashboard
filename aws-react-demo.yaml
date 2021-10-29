@@ -16,13 +16,12 @@ spec:
       containers:
       - name: cwms-react-demo
         image: "starlordolvr/cwms-react-aws:latest"
-        ports:
-            #the port on which the app can be reached out inside the container
-            - containerPort: 7000
-          resources:
-            limits:
-              memory: '128Mi'
-              cpu: '200m'
+        ports:            
+          - containerPort: 7000
+        resources:
+          limits:
+            memory: '128Mi'
+            cpu: '200m'
       nodeSelector:
         kubernetes.io/os: linux
 ---
