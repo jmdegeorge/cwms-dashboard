@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cwms-react-demo
+  namespace: cwms
+spec:
+  selector:
+    matchLabels:
+      app: cwms-react-demo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cwms-react-demo
+    spec:
+      containers:
+      - name: cwms-react-demo
+        image: "starlordolvr/cwms-react-aws:latest"
+        ports:
+          - containerPort: 80
+        resources:
+          limits:
+            memory: '128Mi'
+            cpu: '200m'
+      nodeSelector:
+        kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cwms-react-service
+  namespace: cwms
+  labels:
+    app: cwms-react-demo
+spec:
+  type: ClusterIP
+  selector:
+    app: cwms-react-demo    
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cwms-react-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  namespace: cwms
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: cwms-react-service
+            port:
+              number: 80
